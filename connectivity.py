@@ -24,6 +24,16 @@ def get_current_version():
     # return the very first
     return wholeFileJson[0]
 
+# Get the champion's stats.
+def get_champion_data(name):
+    for champion in championsData:
+        if championsData[champion].get('id') == name:
+            print(championsData[champion].get('id')
+            + " (" + ','.join(championsData[champion].get('tags')) + ")")
+            stats = championsData[champion].get('stats')
+            print(stats)
+
+
 websiteURL = "https://ddragon.leagueoflegends.com/cdn/" + get_current_version() + "/data/en_US/champion.json"
 
 response = requests.get(websiteURL)
@@ -37,8 +47,6 @@ championsData = mainJsonFile.get("data")
 for champion in championsData:
 
     # Champion's data: name, tags(marksman, tank etc) and stats
-    championName = championsData[champion].get('id')
-    championTags = championsData[champion].get('tags')
     championStats = championsData[champion].get('stats')
 
     # I'm splitting every stat into a variable
@@ -78,34 +86,5 @@ for champion in championsData:
     attack_speed = championStats.get('attackspeed')
     attack_speed_per_lvl = championStats.get('attackspeedperlevel')
     attack_speed_at_max_lvl = round( (attack_speed + (attack_speed * 18)), 2)
-
-    print(championName + " (" + ','.join(championTags) + ")")
-
-    print("HP: " +str(hp) +"\t\tPer Level: " +str(hp_per_lvl) + "\tAt 18: "
-          + str(hp_at_max_lvl))
-    print("HP Regen: " + str(hp_regen) + "\tPer Level: " + str(hp_regen_per_lvl) + "\tAt 18: "
-          + str(hp_regen_at_max_lvl))
-
-    print("Mana: " + str(mana_pool) + "\tPer Level: " + str(mana_pool_per_lvl)
-          + "\tAt 18: " + str(mana_pool_at_max_lvl))
-
-    print("Mana regen: " + str(mana_pool_regen) + "\tPer Level: " + str(mana_pool_regen_per_lvl)
-          + "\tAt 18: " + str(mana_pool_rege_at_max_lvl))
-
-    print("Movement Speed: " + str(movement_speed))
-
-    print("Armor: " + str(armor) + "\tPer Level: " + str(armor_per_lvl) +
-          "\tAt 18: " + str(armor_at_max_lvl))
-
-    print("Magic resist: " + str(magic_resistance) + "\tPer Level: " +
-          str(magic_resistance_per_lvl) + "\tAt 18: " + str(magic_resistance_at_max_lvl))
-
-    print("Attack Range: " + str(attack_range))
-
-    print("Attack Damage: " + str(attack_dmg) + "\tPer Level: " + str(attack_dmg_per_lvl) +
-          "\tAt 18: " + str(attack_dmg_at_max_lvl))
-
-    print("Attack speed: " + str(attack_speed) + "\tPer Level: " + str(attack_speed_per_lvl) +
-          "\tAt 18: " + str(attack_speed_at_max_lvl) + "\n")
 
 # m.mainloop()
