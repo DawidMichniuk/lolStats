@@ -17,7 +17,7 @@ import requests # used to get the data from the API
 
 # Get the most recent version every time
 def get_current_version():
-    currentVersionUrl = "https://ddragon.leagueoflegends.com/api/versions.json"
+    currentVersionUrl = "https://ddragon.leagueoflegends.com/api/versions.json" # get the recent version.
     responseVersion = requests.get(currentVersionUrl)
     wholeFileJson = json.loads(responseVersion.text)
     # return the very first
@@ -31,6 +31,22 @@ def get_champion_data(name):
             + " (" + ','.join(championsData[champion].get('tags')) + ")")
             stats = championsData[champion].get('stats')
             print(stats)
+
+def get_champions_stat_on_specific_level(name, level):
+      if level <18 and level >1:
+            pass
+            #everything is fine.
+      #else:
+            #break
+      for champion in championsData:
+            if championsData[champion].get('id') == name:
+                  print(championsData[champion].get('id')
+                  + " (" + ','.join(championsData[champion].get('tags')) + ")")
+                  stats = championsData[champion].get('stats')
+                  print("HP: " + stats.get('hp') * level)
+                  #print(stats)
+
+#def sort_by_stat(stat):
 
 def get_every_champion():
     for champion in championsData:
@@ -77,7 +93,8 @@ def get_every_champion():
         attack_speed_per_lvl = championStats.get('attackspeedperlevel')
         attack_speed_at_max_lvl = round( (attack_speed + (attack_speed * 18)), 2)
 
-            print(championName + " (" + ','.join(championTags) + ")")
+        
+        print(championName + " (" + ','.join(championTags) + ")")
 
         print("HP: " +str(hp) +"\t\tPer Level: " +str(hp_per_lvl) + "\tAt 18: "
               + str(hp_at_max_lvl))
@@ -107,7 +124,6 @@ def get_every_champion():
               "\tAt 18: " + str(attack_speed_at_max_lvl) + "\n")
 
 
-
 websiteURL = "https://ddragon.leagueoflegends.com/cdn/" + get_current_version() + "/data/en_US/champion.json"
 
 response = requests.get(websiteURL)
@@ -115,3 +131,6 @@ response = requests.get(websiteURL)
 mainJsonFile = json.loads(response.text)
 
 championsData = mainJsonFile.get("data")
+
+#get_every_champion()
+get_champion_data("Kayn")
