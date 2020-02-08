@@ -36,8 +36,8 @@ def get_champions_stat_on_specific_level(name, level):
       if level <18 and level >1:
             pass
             #everything is fine.
-      else:
-            break
+      #else:
+            #break
       for champion in championsData:
             if championsData[champion].get('id') == name:
                   print(championsData[champion].get('id')
