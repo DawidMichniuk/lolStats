@@ -93,7 +93,8 @@ def get_every_champion():
         attack_speed_per_lvl = championStats.get('attackspeedperlevel')
         attack_speed_at_max_lvl = round( (attack_speed + (attack_speed * 18)), 2)
 
-        
+        # this will now all the data we have saved so far.
+        # maybe later on I can save champions as name->stats dictionary?
         print(championName + " (" + ','.join(championTags) + ")")
 
         print("HP: " +str(hp) +"\t\tPer Level: " +str(hp_per_lvl) + "\tAt 18: "
