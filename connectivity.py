@@ -54,8 +54,6 @@ def get_champions_stat_on_specific_level(name, level, championsData):
                   print("HP: " + stats.get('hp') * level)
                   #print(stats)
 
-#def sort_by_stat(stat):
-
 def get_every_champion(championsData):
     for champion in championsData:
         # Champion's data: name, tags(marksman, tank etc) and stats
@@ -130,3 +128,25 @@ def get_every_champion(championsData):
 
         print("Attack speed: " + str(attack_speed) + "\tPer Level: " + str(attack_speed_per_lvl) +
               "\tAt 18: " + str(attack_speed_at_max_lvl) + "\n")
+
+def sort_by_stat(championsData, input_stat): #stat to be filtered by
+      import operator
+      championDictionary = {}
+      for champion in championsData:
+            # Champion's data: name, tags(marksman, tank etc) and stats
+            championName = championsData[champion].get('id')
+            championStats = championsData[champion].get('stats') #!!!!!
+            championDictionary[championName] = championStats.get(input_stat)
+      pretty_dictionary = {k: v for k, v in sorted(championDictionary.items(), key=lambda item: item[1], reverse=True)}
+      return pretty_dictionary
+      #for champion, value in pretty_dictionary:
+      #      print(champion + " - " + value + " " + input_stat)
+      #print(championDictionary)
+      #for championName, championStat in championDictionary.items():
+      #      print(championName + " - " + championStat + " " + input_stat)
+            #print(championName)
+            #print(championStats)s
+            #print("\n\n")
+current_version = get_current_version()
+championsDa = get_data(current_version)
+sort_by_stat(championsDa, 'hp')
