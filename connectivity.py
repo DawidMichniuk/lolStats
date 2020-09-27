@@ -23,16 +23,24 @@ def get_current_version():
     # return the very first
     return wholeFileJson[0]
 
+def get_data(current_version):
+      websiteURL = "https://ddragon.leagueoflegends.com/cdn/" + current_version + "/data/en_US/champion.json"
+      response = requests.get(websiteURL)
+      mainJsonFile = json.loads(response.text)
+      mainJsonFile = mainJsonFile.get("data")
+      return mainJsonFile
+
 # Get the champion's stats.
-def get_champion_data(name):
-    for champion in championsData:
+def get_champion_data(name, championsData):
+     for champion in championsData:
         if championsData[champion].get('id') == name:
             print(championsData[champion].get('id')
             + " (" + ','.join(championsData[champion].get('tags')) + ")")
             stats = championsData[champion].get('stats')
-            print(stats)
+            return stats
+     return "Champion does not exist"
 
-def get_champions_stat_on_specific_level(name, level):
+def get_champions_stat_on_specific_level(name, level, championsData):
       if level <18 and level >1:
             pass
             #everything is fine.
@@ -48,7 +56,7 @@ def get_champions_stat_on_specific_level(name, level):
 
 #def sort_by_stat(stat):
 
-def get_every_champion():
+def get_every_champion(championsData):
     for champion in championsData:
         # Champion's data: name, tags(marksman, tank etc) and stats
         championName = championsData[champion].get('id')
@@ -123,15 +131,3 @@ def get_every_champion():
 
         print("Attack speed: " + str(attack_speed) + "\tPer Level: " + str(attack_speed_per_lvl) +
               "\tAt 18: " + str(attack_speed_at_max_lvl) + "\n")
-
-
-websiteURL = "https://ddragon.leagueoflegends.com/cdn/" + get_current_version() + "/data/en_US/champion.json"
-
-response = requests.get(websiteURL)
-
-mainJsonFile = json.loads(response.text)
-
-championsData = mainJsonFile.get("data")
-
-#get_every_champion()
-get_champion_data("Kayn")
