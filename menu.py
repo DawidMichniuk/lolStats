@@ -21,7 +21,7 @@ def menu():
         print("**********************")
         print("1. Find champions stats")
         print("2. Get data on all champions")
-        print("3. Get raw data of all champions - debugging") #Get sorted list of champions by attribute - todo
+        print("3. Get a list of champions sorted by a specific attribute")
         print("4. Exit the Program")
         print("**********************")
         users_choice = int(input())
@@ -36,7 +36,9 @@ def menu():
             print("Prepare for a slight lag")
             connectivity.get_every_champion(championsdata)
         elif users_choice == 3:
-            print(championsdata)
+            print('Cool, now what\'s the stat (your options: hp, mp, movespeed, armor, spellblock, attackrange, hpregen, mpregen, crit, attackdamage, attackspeed)')
+            stat = input()
+            print(connectivity.sort_by_stat(championsdata, stat))
         elif users_choice == 4:
             sys.exit()
         else:
