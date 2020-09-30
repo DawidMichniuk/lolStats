@@ -41,17 +41,21 @@ def get_champion_data(name, championsData):
      return "Champion does not exist"
 
 def get_champions_stat_on_specific_level(name, level, championsData):
-      if level <18 and level >1:
-            pass
-            #everything is fine.
-      #else:
-            #break
+      # if level <18 and level >1:
+      #       pass
+      #       #everything is fine.
+      # #else:
+      #       #break
       for champion in championsData:
             if championsData[champion].get('id') == name:
-                  print(championsData[champion].get('id')
-                  + " (" + ','.join(championsData[champion].get('tags')) + ")")
+                  print(championsData[champion].get('id') + " ("
+                  + ','.join(championsData[champion].get('tags')) + ")")
                   stats = championsData[champion].get('stats')
-                  print("HP: " + stats.get('hp') * level)
+                  for stat in stats:
+                        print(stat)
+                        
+                  #stats.get(input_stat) + (level*championStats.get(input_stat+"perlevel"))
+                  #print("HP: " + stats.get('hp') * level)
                   #print(stats)
 
 def get_every_champion(championsData):
@@ -139,14 +143,39 @@ def sort_by_stat(championsData, input_stat): #stat to be filtered by
             championDictionary[championName] = championStats.get(input_stat)
       pretty_dictionary = {k: v for k, v in sorted(championDictionary.items(), key=lambda item: item[1], reverse=True)}
       return pretty_dictionary
-      #for champion, value in pretty_dictionary:
-      #      print(champion + " - " + value + " " + input_stat)
-      #print(championDictionary)
-      #for championName, championStat in championDictionary.items():
-      #      print(championName + " - " + championStat + " " + input_stat)
-            #print(championName)
-            #print(championStats)s
-            #print("\n\n")
+
+#Movespeed and attack range does not update per level.
+def sort_by_stat_on_specific_level(championsData, input_stat, level=1): #stat to be filtered by
+      import sys
+      try:
+            level = int(level)
+      except:
+            print("Was that really a number? Try again.")
+      if level < 1 or level > 18:
+            print("Very funny")
+            sys.exit()
+
+      championDictionary = {}
+      is_the_stat_constant = False
+      if input_stat == "movespeed" or input_stat == "attackrange":
+            is_the_stat_constant = True
+      for champion in championsData:
+            # Champion's data: name, tags(marksman, tank etc) and stats
+            championName = championsData[champion].get('id')
+            championStats = championsData[champion].get('stats') #!!!!!
+            if championName == "Alistar":
+                  print("Stat: " + str(championStats.get(input_stat)))
+                  print("Per level: " + str(championStats.get(input_stat+"perlevel")))
+                  print("level: " + str(level))
+            if is_the_stat_constant == True:
+                  championDictionary[championName] = championStats.get(input_stat)
+            else:
+                  level = level - 1 #n-1 times the stat per level to count the value at n level
+                  current_value = championStats.get(input_stat) + (level*championStats.get(input_stat+"perlevel"))
+                  championDictionary[championName] = round(current_value, 3)
+            
+      pretty_dictionary = {k: v for k, v in sorted(championDictionary.items(), key=lambda item: item[1], reverse=True)}
+      return pretty_dictionary
 current_version = get_current_version()
 championsDa = get_data(current_version)
 sort_by_stat(championsDa, 'hp')
